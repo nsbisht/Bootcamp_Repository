@@ -7,6 +7,7 @@ from langchain.tools import ToolRuntime, tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langfuse.langchain import CallbackHandler
 from langgraph.checkpoint.memory import InMemorySaver
+from langchain.agents.middleware import SummarizationMiddleware
 
 load_dotenv()
 
@@ -71,6 +72,13 @@ agent = create_agent(
     context_schema=Context,
     response_format=ToolStrategy(ResponseFormat),
     checkpointer=checkpointer,
+    middleware=[
+        SummarizationMiddleware(
+            model=model,
+            trigger=("tokens", 200),
+            keep=("messages", 1),
+        ),
+    ],
 )
 
 # Run agent
@@ -101,6 +109,3 @@ response = agent.invoke(
     context=Context(user_id="1"),
 )
 print(response["structured_response"])  # A3
-
-# print("ALL INFORMATION")
-# print(response)

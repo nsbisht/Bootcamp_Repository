@@ -141,7 +141,7 @@ dmypy.json
 cython_debug/
 
 # IDEs
-.vscode/
+# .vscode/
 .idea/
 *.swp
 *.swo

@@ -21,7 +21,11 @@ agent = create_agent(
 # Run the agent
 
 response = agent.invoke(
-    {"messages": [{"role": "user", "content": "what is the weather in sf"}]},
+    {
+        "messages": [
+            {"role": "user", "content": "what was the weather like in sf last week"}
+        ]
+    },
     config={"callbacks": [langfuse_handler]},
 )
 
