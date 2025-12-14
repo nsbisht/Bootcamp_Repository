@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "weather_agent": "./weather_agent-langgraph-server.py:agent"
+  },
+  "env": ".env"
+}

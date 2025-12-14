@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 
 from dotenv import load_dotenv
@@ -5,7 +6,7 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import SummarizationMiddleware
 from langchain.agents.structured_output import ToolStrategy
 from langchain.tools import ToolRuntime, tool
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langfuse.langchain import CallbackHandler
 from langgraph.checkpoint.memory import InMemorySaver
 
@@ -47,7 +48,12 @@ def get_user_location(runtime: ToolRuntime[Context]) -> str:
 
 
 # Configure model
-model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+model = ChatOpenAI(
+    model="gpt-4o",
+    base_url=os.getenv("LLM_API_URL"),
+    api_key="",
+    default_headers={"Authorization": os.getenv("LLM_API_TOKEN")},
+)
 
 
 # Define response format

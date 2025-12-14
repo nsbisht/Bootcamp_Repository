@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment-weather-agent.yaml
+  - service-weather-agent.yaml
+  - deployment-mcp-server.yaml
+  - service-mcp-server.yaml
+
+namespace: default
+
+commonLabels:
+  environment: production
+  managed-by: kustomize
+
+images:
+  - name: weather-agent
+    newName: your-registry/weather-agent
+    newTag: latest
+  - name: mcp-server
+    newName: your-registry/mcp-server
+    newTag: latest
+
+secretGenerator:
+  - name: weather-agent-secrets
+    envs:
+      - secrets.env

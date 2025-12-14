@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-agent
+  labels:
+    app: weather-agent
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 2024
+    targetPort: 2024
+    protocol: TCP
+    name: http
+  selector:
+    app: weather-agent

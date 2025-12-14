@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-agent
+  labels:
+    app: weather-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-agent
+  template:
+    metadata:
+      labels:
+        app: weather-agent
+    spec:
+      containers:
+      - name: weather-agent
+        image: weather-agent:latest
+        ports:
+        - containerPort: 2024
+          name: http
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: LANGGRAPH_PORT
+          value: "2024"
+        envFrom:
+        - secretRef:
+            name: weather-agent-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 2024
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 2024
+          initialDelaySeconds: 10
+          periodSeconds: 5

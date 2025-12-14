@@ -1,0 +1,45 @@
+CI -> CD
+
+Code -> 
+feature
+feature -> main
+
+Code -> Docker Image (Dockerfile) -> v1.0.1 -> Container -> Pod -> Service -> API Gateway (with Auth - Azure Entra ID / KeyCloak)
+
+
+
+ArgoCD
+
+-------------------------------------------------------------
+
+HPA (Horizontal Pod Autoscaling) ----
+
+CPU - 2
+Memory - 4GB
+Emphemeral Storage - 15GB
+
+minReplicas - 2
+maxReplicas - 8
+
+POD 1   POD 2
+
+CPU > 75% -> POD 3 -> POD 4
+
+-------------------------------------------------------------
+
+Deployment Strategy ----
+
+readiness probe - healthcheck
+
+POD 3 POD 4 
+
+liveness probe - healthcheck
+
+POD 4 POD 5
+
+-------------------------------------------------------------
+
+Config -> ConfigMap ()
+Secrets -> Secrets () -> External Secrets Manager (AWS -> AWS Secrets | Azure -> Azure Key Vault)
+
+--------------------------------------------------------------
